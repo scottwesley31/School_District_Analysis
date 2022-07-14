@@ -117,6 +117,36 @@ The differences in the "% Overall Passing" column is only slight as outlined abo
   - None of the scores are different between each script except for 9th grade which reiterates that all the reading and math scores for 9th graders were replaced with "NaN" resulting in no calculated value.
 
   - Scores by school spending
+    - Both of the original and updated script result in a `spending_summary_df` that looks like this:
+    ![spending_summary_df](https://user-images.githubusercontent.com/107309793/178896354-473a039d-c1cf-4ede-81d6-400be341300e.png)
+
+This DataFrame is obtained in the same fashion in both scripts by establishing spending bins, appending a new column to the `per_school_summary_df` called "Spending Ranges (Per Student)", utilizing the calculated `per_school_capita` for each school to sort into the bins, than calculating the averages of all the score/percentages categories using the groupby() function. This is assembled into a new DataFrame. Here's the code (the formatting code is omitted):
+
+```
+# Establish the spending bins and group names.
+spending_bins = [0, 585, 630, 645, 675]
+group_names = ["<$586", "$586-630", "$631-645", "$646-675"]
+
+# Categorize spending based on the bins.
+per_school_summary_df["Spending Ranges (Per Student)"] = pd.cut(per_school_capita, spending_bins, labels=group_names)
+
+# Calculate averages for the desired columns.
+spending_math_scores = per_school_summary_df.groupby(["Spending Ranges (Per Student)"]).mean()["Average Math Score"]
+spending_reading_scores = per_school_summary_df.groupby(["Spending Ranges (Per Student)"]).mean()["Average Reading Score"]
+spending_passing_math = per_school_summary_df.groupby(["Spending Ranges (Per Student)"]).mean()["% Passing Math"]
+spending_passing_reading = per_school_summary_df.groupby(["Spending Ranges (Per Student)"]).mean()["% Passing Reading"]
+overall_passing_spending = per_school_summary_df.groupby(["Spending Ranges (Per Student)"]).mean()["% Overall Passing"]
+
+# Assemble info DataFrame.
+spending_summary_df = pd.DataFrame({
+    "Average Math Score": spending_math_scores,
+    "Average Reading Score": spending_reading_scores,
+    "% Passing Math": spending_passing_math,
+    "% Passing Reading": spending_passing_reading,
+    "% Overall Passing": overall_passing_spending})
+```
+In both the original and updated scripts, the same `per_school_capita` calculation is used: `per_school_capita = per_school_budget/per_school_counts`. This divides budget alloted to a school by the number of students in that school. The `per_school_counts` values still includes the total student count for THS, meaning the new student count which excludes the 9th graders with NaN values is NOT accounted for.
+
   - Scores by school size
   - Scores by school type
 
