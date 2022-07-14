@@ -164,5 +164,27 @@ per_school_summary_df["School Size"] = pd.cut(per_school_summary_df["Total Stude
 Because the "Total Students" values of the `per_school_summary_df` DataFrame are used, the 9th grade students with "NaN" scores are still accounted for numerically, leaving the data unchanged in both scripts.
 
   - Scores by school type
+    - Both of the original and updated script result in a `type_summary_df` that looks like this:
+    ![type_summary_df](https://user-images.githubusercontent.com/107309793/178900320-c3c43be7-aaea-4e96-830f-b5a98e583eb9.png)
+
+In this case, this DataFrame does not require bins and sorting to generate because the `per_school_summary_df' DataFrame already has a column listing each high school's type. The groupby() function can be executed again in the same way prior to assembling the DataFrame:
+
+```
+# Calculate the averages for the desired columns.
+type_math_scores = per_school_summary_df.groupby(["School Type"]).mean()["Average Math Score"]
+type_reading_scores = per_school_summary_df.groupby(["School Type"]).mean()["Average Reading Score"]
+type_passing_math = per_school_summary_df.groupby(["School Type"]).mean()["% Passing Math"]
+type_passing_reading = per_school_summary_df.groupby(["School Type"]).mean()["% Passing Reading"]
+type_overall_passing = per_school_summary_df.groupby(["School Type"]).mean()["% Overall Passing"]
+
+# Assemble into DataFrame.
+type_summary_df = pd.DataFrame({
+    "Average Math Score": type_math_scores,
+    "Average Reading Score": type_reading_scores,
+    "% Passing Math": type_passing_math,
+    "% Passing Reading": type_passing_reading,
+    "% Overall Passing": type_overall_passing})
+```
+School type is not something that is dependent on 9th grade THS scores. Therefore the data in both scripts is the same.
 
 ## Summary
