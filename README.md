@@ -148,6 +148,21 @@ spending_summary_df = pd.DataFrame({
 In both the original and updated scripts, the same `per_school_capita` calculation is used: `per_school_capita = per_school_budget/per_school_counts`. This divides budget alloted to a school by the number of students in that school. The `per_school_counts` values still includes the total student count for THS, meaning the new student count which excludes the 9th graders with NaN values is NOT accounted for.
 
   - Scores by school size
+    - Both of the original and updated script result in a `size_summary_df` that looks like this:
+    ![size_summary_df](https://user-images.githubusercontent.com/107309793/178899217-521570a0-ee19-4128-8fec-d920d6144e60.png)
+    
+This DataFrame is generated using the same strategy as the `spending_summary_df` DataFrame. The only difference is the bins, their labels, and that the "Total Students" column of the `per_school_summary_df` is used to sort. These categories are displayed in a new column called "School Size". The DataFrame is assembled after using the groupby() function in the same way as before. Here's the necessary code to generate the "School Size" column prior to grouping:
+
+```
+# Establish the bins.
+size_bins = [0, 999, 1999, 5000]
+group_names = ["Small (<1000)", "Medium (1000-1999)", "Large (2000-5000)"]
+
+# Categorize school size based on the bins.
+per_school_summary_df["School Size"] = pd.cut(per_school_summary_df["Total Students"], size_bins, labels=group_names)
+```
+Because the "Total Students" values of the `per_school_summary_df` DataFrame are used, the 9th grade students with "NaN" scores are still accounted for numerically, leaving the data unchanged in both scripts.
+
   - Scores by school type
 
 ## Summary
