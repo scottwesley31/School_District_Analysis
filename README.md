@@ -188,3 +188,9 @@ type_summary_df = pd.DataFrame({
 School type is not something that is dependent on 9th grade THS scores. Therefore the data in both scripts is the same.
 
 ## Summary
+
+In summary some of the most apparent changes occuring in the updated school district analysis script as a result of excluding 9th grade THS reading and math scores are as follows:
+1. Average Math Score, % Passing Math, % Passing Reading, and % Overall Passing in the district summary all dropped slightly. This was due to a `new_student_count` incorporated into the calculations of the updated script as well as a lower count of passing scores caused by the "Nan" values.
+2. Average Math Score, Average Reading Score, % Passing Math, % Passing Reading, and % Overall Passing changed slightly in the THS school summary. Because all the 9th grade math/reading scores are all excluded from calculations for these columns, a new average is generated for each of these values/percents.
+3. The "% Overall Passing" column in the `per_school_summary_df` is slightly lower by 0.317688% for THS in the new script. This is the value used to sort the DataFrame to display the top 5 schools. This does not change its ranking however. 
+4. The "NaN" value shows up in the `math_scores_by_grade` and `reading_scores_by_grade` DataFrames for 9th graders at THS. This is to be expected since all of these values were replaced at the start of the reworking of the school district analysis.
