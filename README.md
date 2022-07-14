@@ -1,7 +1,7 @@
 # School District Analysis
 Module 4
 
-## Overview of the school district analysis
+## Overview of the School District Analysis
 ### Purpose
 After the compilation of data contained in two different csv files (`schools_complete.csv` and `students_complete.csv`) and an in-depth analysis of a school district's reading and math scores by grade, the school board discovered a dishonest reporting of ninth-grade math and reading scores for one high school in particular - Thomas High School (THS). The school board is requesting an updated analysis of the school district data which excludes said math scores but keeps the rest of the data intact. A report describing how the updated analysis has affected the overall school district results has been requested.
 
